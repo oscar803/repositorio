@@ -1,0 +1,53 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Configuración común para todas las máquinas
+  config.vm.box = "generic/ubuntu2204"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+    vb.cpus = 1
+  end
+
+  # Node Exporter 1
+  config.vm.define "node-exporter-3" do |node1|
+    node1.vm.network "private_network", ip: "192.168.33.4"
+    node1.vm.hostname = "node-exporter-3"
+
+    # Copia la clave pública generada en el host a la VM
+    node1.vm.provision "file", run: "once", source: "#{Dir.home}/.ssh/vagrant_vm_key.pub", destination: "/home/vagrant/.ssh/vagrant_vm_key.pub"
+
+    # Configuración inicial del servidor SSH
+    node1.vm.provision "shell", run: "once" do |s|
+      s.inline = <<-SHELL
+        # Actualizar e instalar OpenSSH Server
+        apt-get update
+        apt-get install -y openssh-server
+
+        # Configurar el servidor SSH para aceptar claves públicas
+        sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+        sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+        # Crear el directorio .ssh si no existe
+        mkdir -p /home/vagrant/.ssh
+        chmod 700 /home/vagrant/.ssh
+        chown vagrant:vagrant /home/vagrant/.ssh
+
+        # Agregar la clave pública al archivo authorized_keys
+        cat /home/vagrant/.ssh/vagrant_vm_key.pub >> /home/vagrant/.ssh/authorized_keys
+
+        # Ajustar permisos
+        chmod 600 /home/vagrant/.ssh/authorized_keys
+        chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+
+        # Reiniciar el servidor SSH
+        systemctl restart sshd
+
+        loadkeys es
+      SHELL
+    end
+
+    # Configuración para evitar prompts de SSH
+    node1.ssh.insert_key = false
+    node1.ssh.extra_args = ["-o StrictHostKeyChecking=no", "-o UserKnownHostsFile=/dev/null"]
+  end  # Cierre del bloque node1
+end  # Cierre del bloque config
