@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64" # Ubuntu 22.04 LTS
+  
+  # Configuración de red con IP fija
+  config.vm.network "private_network", ip: "192.168.56.10"
+
+  # Habilita el acceso SSH y reenvío de claves
+  config.ssh.insert_key = false
+  config.ssh.forward_agent = true
+
+  # Sincroniza la carpeta actual con la VM
+  config.vm.synced_folder ".", "/vagrant"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"  # Ajusta según necesidades
+    vb.cpus = 2
+  end
+end
