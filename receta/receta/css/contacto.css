@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    background-color: salmon;
+}
+
+nav {
+    background-color: #fd0000;
+    padding: 10px;
+    text-align: right;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+form {
+    display: grid;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: salmon;
+    padding: 15px;
+    border: 1px solid #ccc;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.radio, .contenedor-campos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contenedor-campos fieldset {
+    display: none;
+}
+
+#opcion-queja:checked ~ #queja {
+    display: block;
+}
+
+#opcion-propuesta:checked ~ #propuesta {
+    display: block;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+}
+
+header {
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    .radio, .botones {
+        flex-direction: column;
+    }
+}

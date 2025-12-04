@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: salmon;
+}
+
+header {
+    margin-bottom: 20px;
+    background-color: #fa0c0c;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    text-align: right;
+}
+
+header span {
+    margin-right: 15px;
+}
+
+.titulo_pagina {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recetas_cuadricula {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 10px;
+}
+
+.recetas_cuadricula article {
+    background-color: #fff176;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+
+.recetas_cuadricula article:nth-of-type(3n) {
+    background-color: #bbdefb;
+    margin-bottom: 30px; 
+}
+
+article h1 {
+    background-color: #f9a825;
+    color: white;
+    padding: 8px;
+    margin: -10px -10px 10px -10px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+article img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 10px auto;
+    border-radius: 5px;
+}
+
+figcaption {
+    font-size: 0.8em;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
